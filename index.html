@@ -2,411 +2,293 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<meta
-    name="viewport"
-    content="width=device-width,
-    initial-scale=1.0,
-    maximum-scale=1.0,
-    user-scalable=no"
->
-
-<title>3D Explorer Multiplayer</title>
+<title>3D Explorer</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #87b8e8;
-    font-family: Arial, sans-serif;
-}
-
-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    touch-action: none;
-}
-
-
-/* =========================
-   TOP UI
-========================= */
-
-#info {
-    position: fixed;
-
-    top: 12px;
-    left: 12px;
-
-    z-index: 10;
-
-    color: white;
-
-    background: rgba(0,0,0,.55);
-
-    padding: 10px 14px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
-    pointer-events: none;
-}
-
-
-#players {
-    position: fixed;
-
-    top: 12px;
-    right: 12px;
-
-    z-index: 10;
-
-    color: white;
-
-    background: rgba(0,0,0,.55);
-
-    padding: 10px 14px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
-    pointer-events: none;
-}
-
-
-/* =========================
-   START SCREEN
-========================= */
-
-#startScreen {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 20;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0,0,0,.78);
-
-    color: white;
-
-    text-align: center;
-}
-
-
-#startScreen input {
-
-    width: 220px;
-
-    padding: 12px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    font-size: 16px;
-
-    margin: 8px;
-
-    outline: none;
-}
-
-
-#startButton {
-
-    border: none;
-
-    border-radius: 12px;
-
-    padding: 14px 28px;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
-    background: white;
-
-    color: black;
-
-}
-
-
-#startButton:hover {
-    background: #ddd;
-}
-
-
-#status {
-
-    margin-top: 15px;
-
-    font-size: 13px;
-
-    opacity: .7;
-}
-
-
-/* =========================
-   MOBILE CONTROLS
-========================= */
-
-#mobile {
-
-    display: none;
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 15;
-
-    pointer-events: none;
-}
-
-
-#joystick {
-
-    position: absolute;
-
-    left: 25px;
-
-    bottom: 30px;
-
-    width: 125px;
-
-    height: 125px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,.15);
-
-    border:
-        2px solid
-        rgba(255,255,255,.3);
-
-    pointer-events: auto;
-
-    touch-action: none;
-}
-
-
-#stick {
-
-    position: absolute;
-
-    width: 55px;
-
-    height: 55px;
-
-    left: 33px;
-
-    top: 33px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,.65);
-}
-
-
-#lookArea {
-
-    position: absolute;
-
-    right: 10px;
-
-    bottom: 20px;
-
-    width: 50%;
-
-    height: 55%;
-
-    border-radius: 20px;
-
-    background:
-        rgba(255,255,255,.03);
-
-    color:
-        rgba(255,255,255,.4);
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    pointer-events: auto;
-
-    touch-action: none;
-}
-
-
-/* =========================
-   MOBILE MEDIA
-========================= */
-
-@media (pointer: coarse) {
-
-    #mobile {
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        font-family: Arial, sans-serif;
+        touch-action: none;
+        user-select: none;
+    }
+
+    canvas {
         display: block;
+        width: 100%;
+        height: 100%;
     }
 
-    #info {
+    #startScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+            radial-gradient(circle at center, #182238 0%, #080b12 65%, #030406 100%);
+        color: white;
+    }
+
+    #startBox {
+        width: min(420px, 90vw);
+        padding: 28px;
+        border-radius: 18px;
+        background: rgba(10, 14, 24, 0.94);
+        border: 1px solid rgba(255,255,255,.12);
+        box-shadow: 0 20px 80px rgba(0,0,0,.5);
+        text-align: center;
+    }
+
+    #startBox h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+    }
+
+    #startBox p {
+        color: #aeb7c7;
+        line-height: 1.5;
+        margin: 8px 0 20px;
+    }
+
+    #nameInput {
+        width: 100%;
+        padding: 13px;
+        border-radius: 10px;
+        border: 1px solid #39445b;
+        background: #111827;
+        color: white;
+        outline: none;
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    #playButton {
+        width: 100%;
+        padding: 14px;
+        border: 0;
+        border-radius: 10px;
+        background: #4c8dff;
+        color: white;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #playButton:active {
+        transform: scale(.98);
+    }
+
+    #status {
+        margin-top: 12px;
+        min-height: 20px;
+        font-size: 13px;
+        color: #8f9bad;
+    }
+
+    #hud {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 20;
+        color: white;
+        background: rgba(0,0,0,.42);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 10px;
+        padding: 8px 11px;
+        font-size: 13px;
+        pointer-events: none;
+        backdrop-filter: blur(6px);
+    }
+
+    #crosshair {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        margin-left: -4px;
+        margin-top: -4px;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    #crosshair::before,
+    #crosshair::after {
+        content: "";
+        position: absolute;
+        background: white;
+        opacity: .8;
+    }
+
+    #crosshair::before {
+        width: 8px;
+        height: 1px;
+        top: 3px;
+        left: 0;
+    }
+
+    #crosshair::after {
+        width: 1px;
+        height: 8px;
+        left: 3px;
+        top: 0;
+    }
+
+    /* Mobile controls */
+
+    #mobileControls {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        pointer-events: none;
+    }
+
+    #joystickArea {
+        position: absolute;
+        left: 20px;
+        bottom: 25px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.07);
+        border: 2px solid rgba(255,255,255,.18);
+        pointer-events: auto;
+    }
+
+    #joystickKnob {
+        position: absolute;
+        width: 62px;
+        height: 62px;
+        left: 44px;
+        top: 44px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.28);
+        border: 2px solid rgba(255,255,255,.4);
+        box-shadow: 0 4px 20px rgba(0,0,0,.25);
+        pointer-events: none;
+    }
+
+    #lookArea {
+        position: absolute;
+        left: 40%;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        pointer-events: auto;
+    }
+
+    #mobileHint {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        color: rgba(255,255,255,.45);
         font-size: 12px;
+        pointer-events: none;
     }
 
-}
+    @media (pointer: coarse) {
+        #mobileControls {
+            display: block;
+        }
 
+        #crosshair {
+            display: none;
+        }
+    }
+
+    @media (pointer: fine) {
+        #crosshair {
+            display: block;
+        }
+    }
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =========================
-     UI
-========================= -->
-
-<div id="info">
-
-    WASD: Move<br>
-    Mouse: Look<br>
-    Shift: Sprint
-
-</div>
-
-
-<div id="players">
-    Players: 0
-</div>
-
-
-<!-- =========================
-     START SCREEN
-========================= -->
-
 <div id="startScreen">
-
-    <div>
-
-        <h1>
-            3D Explorer
-        </h1>
+    <div id="startBox">
+        <h1>3D Explorer</h1>
 
         <p>
-            Multiplayer Explorer
+            Explore the world and play with other players.
+            <br><br>
+            PC: WASD + mouse<br>
+            Mobile: joystick + swipe
         </p>
 
-
         <input
-            id="name"
+            id="nameInput"
             maxlength="16"
             placeholder="Your name"
             value="Player"
         >
 
+        <button id="playButton">PLAY</button>
 
-        <br>
-
-
-        <button id="startButton">
-            Join Game
-        </button>
-
-
-        <p id="status">
-            Connecting...
-        </p>
-
+        <div id="status">Connecting...</div>
     </div>
-
 </div>
 
-
-<!-- =========================
-     MOBILE
-========================= -->
-
-<div id="mobile">
-
-    <div id="joystick">
-
-        <div id="stick"></div>
-
-    </div>
-
-
-    <div id="lookArea">
-
-        Drag to look
-
-    </div>
-
+<div id="hud">
+    Players: <span id="playerCount">1</span>
 </div>
 
+<div id="crosshair"></div>
+
+<div id="mobileControls">
+    <div id="joystickArea">
+        <div id="joystickKnob"></div>
+    </div>
+
+    <div id="lookArea"></div>
+
+    <div id="mobileHint">
+        Left = move · Right = look
+    </div>
+</div>
 
 <script type="module">
 
-
-/* =========================================================
-   THREE.JS
-========================================================= */
-
 import * as THREE from
-"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+    "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
 
 /* =========================================================
-   SCENE
+   BASIC SETUP
 ========================================================= */
 
-const scene =
-    new THREE.Scene();
+const scene = new THREE.Scene();
+
+scene.background = new THREE.Color(0x87b8e6);
+
+scene.fog = new THREE.Fog(
+    0x87b8e6,
+    40,
+    180
+);
 
 
-scene.background =
-    new THREE.Color(
-        0x87b8e8
-    );
-
-
-scene.fog =
-    new THREE.Fog(
-        0x87b8e8,
-        35,
-        140
-    );
-
-
-/* =========================================================
-   CAMERA
-========================================================= */
-
-const camera =
-    new THREE.PerspectiveCamera(
-        75,
-        innerWidth / innerHeight,
-        .1,
-        300
-    );
-
+const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.05,
+    500
+);
 
 camera.position.set(
     0,
@@ -415,168 +297,96 @@ camera.position.set(
 );
 
 
-/* =========================================================
-   RENDERER
-========================================================= */
-
-const renderer =
-    new THREE.WebGLRenderer({
-        antialias: true
-    });
-
-
-renderer.setSize(
-    innerWidth,
-    innerHeight
-);
-
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
 
 renderer.setPixelRatio(
-    Math.min(
-        devicePixelRatio,
-        2
-    )
+    Math.min(window.devicePixelRatio, 2)
 );
 
-
-renderer.shadowMap.enabled =
-    true;
-
-
-document.body.appendChild(
-    renderer.domElement
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
 );
+
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+document.body.appendChild(renderer.domElement);
 
 
 /* =========================================================
    LIGHTING
 ========================================================= */
 
-const light =
-    new THREE.HemisphereLight(
-        0xffffff,
-        0x557755,
-        2
-    );
+const hemiLight = new THREE.HemisphereLight(
+    0xddeeff,
+    0x405040,
+    1.8
+);
+
+scene.add(hemiLight);
 
 
-scene.add(light);
-
-
-const sun =
-    new THREE.DirectionalLight(
-        0xffffff,
-        2.5
-    );
-
+const sun = new THREE.DirectionalLight(
+    0xffffff,
+    2.2
+);
 
 sun.position.set(
-    30,
-    50,
+    40,
+    70,
     20
 );
 
+sun.castShadow = true;
 
-sun.castShadow =
-    true;
+sun.shadow.mapSize.width = 2048;
+sun.shadow.mapSize.height = 2048;
 
+sun.shadow.camera.left = -100;
+sun.shadow.camera.right = 100;
+sun.shadow.camera.top = 100;
+sun.shadow.camera.bottom = -100;
 
 scene.add(sun);
 
 
 /* =========================================================
-   GROUND
+   WORLD
 ========================================================= */
 
-const ground =
-    new THREE.Mesh(
+const groundMaterial = new THREE.MeshStandardMaterial({
+    color: 0x477a42,
+    roughness: 1
+});
 
-        new THREE.PlaneGeometry(
-            220,
-            220
-        ),
+const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(500, 500),
+    groundMaterial
+);
 
-        new THREE.MeshStandardMaterial({
-            color: 0x4f8b45
-        })
-
-    );
-
-
-ground.rotation.x =
-    -Math.PI / 2;
-
-
-ground.receiveShadow =
-    true;
-
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
 
 scene.add(ground);
 
 
 /* =========================================================
-   COLLISION OBJECTS
+   DETERMINISTIC RANDOM
+   Makes the world the same for everyone.
 ========================================================= */
 
-const obstacles = [];
+let seed = 123456789;
 
+function random() {
+    seed = (
+        seed * 1664525 +
+        1013904223
+    ) >>> 0;
 
-function createBox(
-    x,
-    y,
-    z,
-    width,
-    height,
-    depth,
-    color
-) {
-
-    const mesh =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                width,
-                height,
-                depth
-            ),
-
-            new THREE.MeshStandardMaterial({
-                color: color
-            })
-
-        );
-
-
-    mesh.position.set(
-        x,
-        y,
-        z
-    );
-
-
-    mesh.castShadow =
-        true;
-
-
-    mesh.receiveShadow =
-        true;
-
-
-    scene.add(mesh);
-
-
-    obstacles.push({
-
-        x: x,
-        z: z,
-
-        width: width,
-        depth: depth
-
-    });
-
-
-    return mesh;
+    return seed / 4294967296;
 }
 
 
@@ -584,106 +394,72 @@ function createBox(
    TREES
 ========================================================= */
 
-function createTree(
-    x,
-    z
-) {
+function createTree(x, z) {
 
-    const trunk =
-        new THREE.Mesh(
+    const tree = new THREE.Group();
 
-            new THREE.CylinderGeometry(
-                .35,
-                .45,
-                3,
-                10
-            ),
+    const trunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            .25,
+            .35,
+            3,
+            8
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0x68452c
+        })
+    );
 
-            new THREE.MeshStandardMaterial({
-                color: 0x70452b
-            })
+    trunk.position.y = 1.5;
+    trunk.castShadow = true;
 
-        );
+    tree.add(trunk);
 
 
-    trunk.position.set(
+    const leaves = new THREE.Mesh(
+        new THREE.ConeGeometry(
+            2.0,
+            4.5,
+            8
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0x245c2b
+        })
+    );
+
+    leaves.position.y = 4;
+
+    leaves.castShadow = true;
+
+    tree.add(leaves);
+
+    tree.position.set(
         x,
-        1.5,
+        0,
         z
     );
 
-
-    trunk.castShadow =
-        true;
-
-
-    scene.add(trunk);
-
-
-    const leaves =
-        new THREE.Mesh(
-
-            new THREE.SphereGeometry(
-                2.1,
-                14,
-                10
-            ),
-
-            new THREE.MeshStandardMaterial({
-                color: 0x236b32
-            })
-
-        );
-
-
-    leaves.position.set(
-        x,
-        4,
-        z
-    );
-
-
-    leaves.castShadow =
-        true;
-
-
-    scene.add(leaves);
+    scene.add(tree);
 }
 
 
-/* Generate trees */
-
-for (
-    let i = 0;
-    i < 50;
-    i++
-) {
+for (let i = 0; i < 70; i++) {
 
     const x =
-        (Math.random() - .5)
-        * 110;
-
+        (random() - .5) * 180;
 
     const z =
-        (Math.random() - .5)
-        * 110;
+        (random() - .5) * 180;
 
-
+    // Keep starting area clear
     if (
-        Math.hypot(x,z)
-        < 15
+        Math.abs(x) < 15 &&
+        Math.abs(z) < 15
     ) {
-
         continue;
-
     }
 
-
-    createTree(
-        x,
-        z
-    );
-
+    createTree(x, z);
 }
 
 
@@ -691,129 +467,165 @@ for (
    BUILDINGS
 ========================================================= */
 
-createBox(
-    0,
-    1,
+const collisionBoxes = [];
+
+
+function createBuilding(
+    x,
+    z,
+    width,
+    height,
+    depth
+) {
+
+    const material =
+        new THREE.MeshStandardMaterial({
+            color: 0x747b87,
+            roughness: .8
+        });
+
+    const building = new THREE.Mesh(
+        new THREE.BoxGeometry(
+            width,
+            height,
+            depth
+        ),
+        material
+    );
+
+    building.position.set(
+        x,
+        height / 2,
+        z
+    );
+
+    building.castShadow = true;
+    building.receiveShadow = true;
+
+    scene.add(building);
+
+    collisionBoxes.push({
+        minX: x - width / 2,
+        maxX: x + width / 2,
+        minZ: z - depth / 2,
+        maxZ: z + depth / 2
+    });
+}
+
+
+createBuilding(
     -18,
+    -20,
     12,
-    2,
-    2,
-    0x777777
+    10,
+    12
 );
 
-
-createBox(
-    -15,
-    1,
-    -5,
-    2,
-    2,
-    12,
-    0x996633
-);
-
-
-createBox(
-    17,
-    1,
-    5,
-    5,
-    2,
-    5,
-    0x555b66
-);
-
-
-createBox(
-    -5,
-    1,
+createBuilding(
     18,
+    -28,
+    16,
+    14,
+    10
+);
+
+createBuilding(
+    30,
+    10,
+    10,
     8,
-    2,
-    3,
-    0x885555
+    18
 );
 
-
-/* Tower */
-
-createBox(
+createBuilding(
+    -30,
     25,
-    3,
-    -18,
-    5,
-    6,
-    5,
-    0x777777
+    18,
+    12,
+    12
 );
 
-
-createBox(
-    25,
-    7,
-    -18,
-    7,
-    2,
-    7,
-    0x444444
+createBuilding(
+    0,
+    40,
+    20,
+    16,
+    10
 );
 
 
 /* =========================================================
-   LOCAL PLAYER
+   PLAYER
 ========================================================= */
 
 const player = {
-
-    position:
-        new THREE.Vector3(
-            0,
-            1.7,
-            8
-        ),
+    position: new THREE.Vector3(
+        0,
+        1.7,
+        8
+    ),
 
     yaw: 0,
 
-    pitch: 0,
-
-    radius: .45
-
+    pitch: 0
 };
 
 
-const keys = {};
-
-
-let gameStarted =
-    false;
-
-
-let mouseLocked =
-    false;
+camera.position.copy(
+    player.position
+);
 
 
 /* =========================================================
-   KEYBOARD
+   INPUT
 ========================================================= */
+
+const keys = Object.create(null);
 
 window.addEventListener(
     "keydown",
     event => {
 
-        keys[event.code] =
-            true;
+        keys[event.code] = true;
 
-    }
+        if (
+            [
+                "KeyW",
+                "KeyA",
+                "KeyS",
+                "KeyD",
+                "ShiftLeft",
+                "ShiftRight",
+                "Space"
+            ].includes(event.code)
+        ) {
+            event.preventDefault();
+        }
+    },
+    { passive: false }
 );
 
 
 window.addEventListener(
     "keyup",
     event => {
+        keys[event.code] = false;
+    }
+);
 
-        keys[event.code] =
-            false;
 
+window.addEventListener(
+    "blur",
+    () => {
+
+        for (const key in keys) {
+            keys[key] = false;
+        }
+
+        joystick.x = 0;
+        joystick.y = 0;
+
+        resetJoystick();
     }
 );
 
@@ -822,20 +634,18 @@ window.addEventListener(
    MOUSE LOOK
 ========================================================= */
 
+let mouseLocked = false;
+
 renderer.domElement.addEventListener(
     "click",
     () => {
 
         if (
-            gameStarted &&
-            !isMobile()
+            !("ontouchstart" in window) &&
+            gameStarted
         ) {
-
-            renderer.domElement
-                .requestPointerLock();
-
+            renderer.domElement.requestPointerLock();
         }
-
     }
 );
 
@@ -845,9 +655,8 @@ document.addEventListener(
     () => {
 
         mouseLocked =
-            document.pointerLockElement
-            === renderer.domElement;
-
+            document.pointerLockElement ===
+            renderer.domElement;
     }
 );
 
@@ -856,250 +665,217 @@ document.addEventListener(
     "mousemove",
     event => {
 
-        if (!mouseLocked)
+        if (!mouseLocked) {
             return;
-
+        }
 
         player.yaw -=
-            event.movementX
-            * .0022;
-
+            event.movementX * 0.0025;
 
         player.pitch -=
-            event.movementY
-            * .0022;
+            event.movementY * 0.0025;
 
+        player.pitch = THREE.MathUtils.clamp(
+            player.pitch,
+            -1.45,
+            1.45
+        );
 
-        player.pitch =
-            Math.max(
-                -1.45,
-                Math.min(
-                    1.45,
-                    player.pitch
-                )
-            );
-
+        updateCameraRotation();
     }
 );
-
-
-/* =========================================================
-   MOBILE DETECTION
-========================================================= */
-
-function isMobile() {
-
-    return (
-        matchMedia(
-            "(pointer: coarse)"
-        ).matches
-
-        ||
-
-        innerWidth < 800
-    );
-
-}
 
 
 /* =========================================================
    MOBILE JOYSTICK
 ========================================================= */
 
-const joystick =
-    document.getElementById(
-        "joystick"
-    );
+const joystickArea =
+    document.getElementById("joystickArea");
+
+const joystickKnob =
+    document.getElementById("joystickKnob");
+
+const lookArea =
+    document.getElementById("lookArea");
 
 
-const stick =
-    document.getElementById(
-        "stick"
-    );
+const joystick = {
+    x: 0,
+    y: 0,
+    pointerId: null
+};
 
 
-let joystickX = 0;
-
-let joystickY = 0;
-
-let joystickActive =
-    false;
-
-
-joystick.addEventListener(
-    "pointerdown",
-    event => {
-
-        joystickActive =
-            true;
-
-
-        joystick.setPointerCapture(
-            event.pointerId
-        );
-
-
-        updateJoystick(
-            event
-        );
-
-    }
-);
-
-
-joystick.addEventListener(
-    "pointermove",
-    event => {
-
-        if (
-            joystickActive
-        ) {
-
-            updateJoystick(
-                event
-            );
-
-        }
-
-    }
-);
-
-
-joystick.addEventListener(
-    "pointerup",
-    resetJoystick
-);
-
-
-joystick.addEventListener(
-    "pointercancel",
-    resetJoystick
-);
-
-
-function updateJoystick(
-    event
-) {
-
-    const rect =
-        joystick.getBoundingClientRect();
-
-
-    let x =
-        event.clientX -
-        (
-            rect.left
-            +
-            rect.width / 2
-        );
-
-
-    let y =
-        event.clientY -
-        (
-            rect.top
-            +
-            rect.height / 2
-        );
-
-
-    const max = 42;
-
-
-    const distance =
-        Math.hypot(
-            x,
-            y
-        );
-
-
-    if (
-        distance > max
-    ) {
-
-        x =
-            x / distance
-            * max;
-
-
-        y =
-            y / distance
-            * max;
-
-    }
-
-
-    joystickX =
-        x / max;
-
-
-    joystickY =
-        y / max;
-
-
-    stick.style.transform =
-        `translate(${x}px,${y}px)`;
-
-}
+const joystickRadius = 44;
 
 
 function resetJoystick() {
 
-    joystickActive =
-        false;
+    joystick.x = 0;
+    joystick.y = 0;
 
-
-    joystickX = 0;
-
-    joystickY = 0;
-
-
-    stick.style.transform =
-        "translate(0,0)";
-
+    joystickKnob.style.transform =
+        "translate(0px, 0px)";
 }
 
 
+function updateJoystick(
+    clientX,
+    clientY
+) {
+
+    const rect =
+        joystickArea.getBoundingClientRect();
+
+    const centerX =
+        rect.left + rect.width / 2;
+
+    const centerY =
+        rect.top + rect.height / 2;
+
+    let dx =
+        clientX - centerX;
+
+    let dy =
+        clientY - centerY;
+
+    const distance =
+        Math.hypot(dx, dy);
+
+    if (distance > joystickRadius) {
+
+        dx =
+            dx / distance *
+            joystickRadius;
+
+        dy =
+            dy / distance *
+            joystickRadius;
+    }
+
+    joystick.x =
+        dx / joystickRadius;
+
+    joystick.y =
+        dy / joystickRadius;
+
+    joystickKnob.style.transform =
+        `translate(${dx}px, ${dy}px)`;
+}
+
+
+joystickArea.addEventListener(
+    "pointerdown",
+    event => {
+
+        if (joystick.pointerId !== null) {
+            return;
+        }
+
+        joystick.pointerId =
+            event.pointerId;
+
+        joystickArea.setPointerCapture(
+            event.pointerId
+        );
+
+        updateJoystick(
+            event.clientX,
+            event.clientY
+        );
+
+        event.preventDefault();
+    },
+    { passive: false }
+);
+
+
+joystickArea.addEventListener(
+    "pointermove",
+    event => {
+
+        if (
+            event.pointerId !==
+            joystick.pointerId
+        ) {
+            return;
+        }
+
+        updateJoystick(
+            event.clientX,
+            event.clientY
+        );
+
+        event.preventDefault();
+    },
+    { passive: false }
+);
+
+
+function endJoystick(event) {
+
+    if (
+        event.pointerId !==
+        joystick.pointerId
+    ) {
+        return;
+    }
+
+    joystick.pointerId = null;
+
+    resetJoystick();
+
+    event.preventDefault();
+}
+
+
+joystickArea.addEventListener(
+    "pointerup",
+    endJoystick,
+    { passive: false }
+);
+
+joystickArea.addEventListener(
+    "pointercancel",
+    endJoystick,
+    { passive: false }
+);
+
+
 /* =========================================================
-   MOBILE CAMERA
+   MOBILE LOOK
 ========================================================= */
 
-const lookArea =
-    document.getElementById(
-        "lookArea"
-    );
-
-
-let looking =
-    false;
-
-
-let lastX = 0;
-
-let lastY = 0;
+let lookPointerId = null;
+let lastLookX = 0;
+let lastLookY = 0;
 
 
 lookArea.addEventListener(
     "pointerdown",
     event => {
 
-        looking =
-            true;
+        if (lookPointerId !== null) {
+            return;
+        }
 
+        lookPointerId =
+            event.pointerId;
 
-        lastX =
+        lastLookX =
             event.clientX;
 
-
-        lastY =
+        lastLookY =
             event.clientY;
-
 
         lookArea.setPointerCapture(
             event.pointerId
         );
 
-    }
+        event.preventDefault();
+    },
+    { passive: false }
 );
 
 
@@ -1107,118 +883,303 @@ lookArea.addEventListener(
     "pointermove",
     event => {
 
-        if (!looking)
+        if (
+            event.pointerId !==
+            lookPointerId
+        ) {
             return;
-
+        }
 
         const dx =
-            event.clientX
-            - lastX;
-
+            event.clientX - lastLookX;
 
         const dy =
-            event.clientY
-            - lastY;
+            event.clientY - lastLookY;
 
-
-        lastX =
+        lastLookX =
             event.clientX;
 
-
-        lastY =
+        lastLookY =
             event.clientY;
 
-
         player.yaw -=
-            dx * .006;
-
+            dx * 0.006;
 
         player.pitch -=
-            dy * .006;
-
+            dy * 0.006;
 
         player.pitch =
-            Math.max(
+            THREE.MathUtils.clamp(
+                player.pitch,
                 -1.45,
-                Math.min(
-                    1.45,
-                    player.pitch
-                )
+                1.45
             );
 
-    }
+        updateCameraRotation();
+
+        event.preventDefault();
+    },
+    { passive: false }
 );
+
+
+function endLook(event) {
+
+    if (
+        event.pointerId !==
+        lookPointerId
+    ) {
+        return;
+    }
+
+    lookPointerId = null;
+
+    event.preventDefault();
+}
 
 
 lookArea.addEventListener(
     "pointerup",
-    () => {
-
-        looking = false;
-
-    }
+    endLook,
+    { passive: false }
 );
-
 
 lookArea.addEventListener(
     "pointercancel",
-    () => {
-
-        looking = false;
-
-    }
+    endLook,
+    { passive: false }
 );
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+function updateCameraRotation() {
+
+    camera.rotation.order = "YXZ";
+
+    camera.rotation.y =
+        player.yaw;
+
+    camera.rotation.x =
+        player.pitch;
+}
 
 
 /* =========================================================
    COLLISION
 ========================================================= */
 
-function blocked(
+function collides(
     x,
     z
 ) {
 
-    for (
-        const obstacle
-        of obstacles
-    ) {
+    const radius = .45;
+
+    for (const box of collisionBoxes) {
 
         if (
-
-            Math.abs(
-                x - obstacle.x
-            )
-
-            <
-
-            obstacle.width / 2
-            +
-            player.radius
-
-            &&
-
-            Math.abs(
-                z - obstacle.z
-            )
-
-            <
-
-            obstacle.depth / 2
-            +
-            player.radius
-
+            x + radius > box.minX &&
+            x - radius < box.maxX &&
+            z + radius > box.minZ &&
+            z - radius < box.maxZ
         ) {
-
             return true;
-
         }
+    }
 
+    return false;
+}
+
+
+/* =========================================================
+   MOVEMENT
+========================================================= */
+
+const moveDirection =
+    new THREE.Vector3();
+
+const forwardDirection =
+    new THREE.Vector3();
+
+const rightDirection =
+    new THREE.Vector3();
+
+
+function getMovementInput() {
+
+    let forward = 0;
+    let strafe = 0;
+
+
+    /* -------------------------
+       KEYBOARD
+    ------------------------- */
+
+    if (keys["KeyW"]) {
+        forward += 1;
+    }
+
+    if (keys["KeyS"]) {
+        forward -= 1;
+    }
+
+    if (keys["KeyD"]) {
+        strafe += 1;
+    }
+
+    if (keys["KeyA"]) {
+        strafe -= 1;
     }
 
 
-    return false;
+    /* -------------------------
+       MOBILE JOYSTICK
+    ------------------------- */
 
+    if (
+        Math.abs(joystick.x) > 0.01 ||
+        Math.abs(joystick.y) > 0.01
+    ) {
+
+        // Joystick UP = negative screen Y
+        // Therefore joystick.y must be inverted.
+        forward += -joystick.y;
+        strafe += joystick.x;
+    }
+
+
+    /* -------------------------
+       NORMALIZE
+       Prevents diagonal speed boost.
+    ------------------------- */
+
+    const length =
+        Math.hypot(
+            forward,
+            strafe
+        );
+
+    if (length > 1) {
+
+        forward /= length;
+        strafe /= length;
+    }
+
+
+    return {
+        forward,
+        strafe
+    };
+}
+
+
+function movePlayer(delta) {
+
+    const input =
+        getMovementInput();
+
+    if (
+        Math.abs(input.forward) < 0.001 &&
+        Math.abs(input.strafe) < 0.001
+    ) {
+        return;
+    }
+
+
+    /* 
+       At yaw = 0:
+       forward = -Z
+       right   = +X
+    */
+
+    forwardDirection.set(
+        Math.sin(player.yaw),
+        0,
+        -Math.cos(player.yaw)
+    );
+
+    rightDirection.set(
+        Math.cos(player.yaw),
+        0,
+        Math.sin(player.yaw)
+    );
+
+
+    moveDirection.set(0, 0, 0);
+
+    moveDirection.addScaledVector(
+        forwardDirection,
+        input.forward
+    );
+
+    moveDirection.addScaledVector(
+        rightDirection,
+        input.strafe
+    );
+
+
+    if (moveDirection.lengthSq() > 1) {
+        moveDirection.normalize();
+    }
+
+
+    let speed = 6;
+
+    if (
+        keys["ShiftLeft"] ||
+        keys["ShiftRight"]
+    ) {
+        speed = 10;
+    }
+
+
+    const distance =
+        speed * delta;
+
+
+    const nextX =
+        player.position.x +
+        moveDirection.x * distance;
+
+    const nextZ =
+        player.position.z +
+        moveDirection.z * distance;
+
+
+    /*
+       Check X and Z separately.
+       This lets you slide along walls
+       instead of getting completely stuck.
+    */
+
+    if (
+        !collides(
+            nextX,
+            player.position.z
+        )
+    ) {
+        player.position.x =
+            nextX;
+    }
+
+
+    if (
+        !collides(
+            player.position.x,
+            nextZ
+        )
+    ) {
+        player.position.z =
+            nextZ;
+    }
+
+
+    camera.position.copy(
+        player.position
+    );
 }
 
 
@@ -1226,218 +1187,184 @@ function blocked(
    MULTIPLAYER
 ========================================================= */
 
-let socket =
-    null;
-
-
-let myId =
-    null;
-
-
-let lastNetworkSend =
-    0;
-
+let socket = null;
+let myId = null;
 
 const remotePlayers =
     new Map();
 
 
-/* =========================================================
-   CREATE REMOTE PLAYER
-========================================================= */
+function createNameSprite(name) {
 
-function createRemotePlayer(
-    name
-) {
+    const canvas =
+        document.createElement("canvas");
+
+    canvas.width = 512;
+    canvas.height = 128;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.font =
+        "bold 48px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillStyle =
+        "rgba(0,0,0,.65)";
+
+    ctx.fillRect(
+        70,
+        15,
+        372,
+        98
+    );
+
+    ctx.fillStyle =
+        "white";
+
+    ctx.fillText(
+        name,
+        256,
+        64
+    );
+
+    const texture =
+        new THREE.CanvasTexture(canvas);
+
+    texture.needsUpdate = true;
+
+    const material =
+        new THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            depthTest: false
+        });
+
+    const sprite =
+        new THREE.Sprite(material);
+
+    sprite.scale.set(
+        3.2,
+        .8,
+        1
+    );
+
+    return sprite;
+}
+
+
+function createRemotePlayer(data) {
 
     const group =
         new THREE.Group();
 
 
-    /* Body */
-
     const body =
         new THREE.Mesh(
-
             new THREE.CapsuleGeometry(
-                .42,
-                .9,
-                4,
-                8
+                .38,
+                1.0,
+                5,
+                10
             ),
-
             new THREE.MeshStandardMaterial({
-                color: 0x3366ff
+                color: 0x4c8dff
             })
-
         );
 
+    body.position.y = .75;
 
-    body.position.y =
-        .9;
-
-
-    body.castShadow =
-        true;
-
+    body.castShadow = true;
 
     group.add(body);
 
 
-    /* Head */
-
     const head =
         new THREE.Mesh(
-
             new THREE.SphereGeometry(
-                .38,
-                12,
-                8
+                .34,
+                16,
+                16
             ),
-
             new THREE.MeshStandardMaterial({
-                color: 0xffc9a9
+                color: 0xffd0a0
             })
-
         );
 
+    head.position.y = 1.65;
 
-    head.position.y =
-        1.75;
-
-
-    head.castShadow =
-        true;
-
+    head.castShadow = true;
 
     group.add(head);
 
 
-    /* Name tag */
-
-    const canvas =
-        document.createElement(
-            "canvas"
+    const name =
+        createNameSprite(
+            data.name || "Player"
         );
 
+    name.position.y = 2.35;
 
-    canvas.width = 512;
-
-    canvas.height = 128;
-
-
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
+    group.add(name);
 
 
-    ctx.fillStyle =
-        "white";
-
-
-    ctx.font =
-        "bold 54px Arial";
-
-
-    ctx.textAlign =
-        "center";
-
-
-    ctx.fillText(
-        name || "Player",
-        256,
-        72
+    group.position.set(
+        data.x,
+        data.y - 1.7,
+        data.z
     );
 
-
-    const texture =
-        new THREE.CanvasTexture(
-            canvas
-        );
-
-
-    const sprite =
-        new THREE.Sprite(
-
-            new THREE.SpriteMaterial({
-                map: texture,
-                transparent: true
-            })
-
-        );
-
-
-    sprite.position.y =
-        2.5;
-
-
-    sprite.scale.set(
-        2.5,
-        .625,
-        1
-    );
-
-
-    group.add(sprite);
-
+    group.rotation.y =
+        data.yaw || 0;
 
     scene.add(group);
 
-
     return {
-
         mesh: group,
-
-        target:
-            new THREE.Vector3(
-                0,
-                1.7,
-                0
-            ),
-
-        yaw: 0
-
+        target: new THREE.Vector3(
+            data.x,
+            data.y - 1.7,
+            data.z
+        ),
+        yaw: data.yaw || 0
     };
-
 }
 
-
-/* =========================================================
-   REMOVE PLAYER
-========================================================= */
-
-function removeRemotePlayer(
-    id
-) {
-
-    const remote =
-        remotePlayers.get(
-            id
-        );
-
-
-    if (!remote)
-        return;
-
-
-    scene.remove(
-        remote.mesh
-    );
-
-
-    remotePlayers.delete(
-        id
-    );
-
-}
-
-
-/* =========================================================
-   CONNECT TO RENDER
-========================================================= */
 
 function connectMultiplayer() {
+
+    /*
+       When running on Render:
+       https://site.onrender.com
+       becomes:
+       wss://site.onrender.com/ws
+
+       When running over normal HTTP:
+       http://site
+       becomes:
+       ws://site/ws
+    */
+
+    if (!location.host) {
+
+        document.getElementById("status").textContent =
+            "Local file: multiplayer unavailable. Use Render.";
+
+        return;
+    }
+
 
     const protocol =
         location.protocol === "https:"
@@ -1449,216 +1376,181 @@ function connectMultiplayer() {
         `${protocol}//${location.host}/ws`;
 
 
-    console.log(
-        "Connecting to:",
-        socketURL
-    );
+    try {
 
+        socket =
+            new WebSocket(socketURL);
 
-    document.getElementById(
-        "status"
-    ).textContent =
-        "Connecting to server...";
+    } catch (error) {
 
+        document.getElementById("status").textContent =
+            "Could not connect to multiplayer.";
 
-    socket =
-        new WebSocket(
-            socketURL
-        );
+        return;
+    }
 
-
-    /* Connected */
 
     socket.addEventListener(
         "open",
         () => {
 
-            document.getElementById(
-                "status"
-            ).textContent =
-                "Connected to multiplayer";
-
-
-            const name =
-                document
-                    .getElementById(
-                        "name"
-                    )
-                    .value
-                    .trim()
-                    .substring(
-                        0,
-                        16
-                    )
-                    ||
-                    "Player";
-
+            document.getElementById("status").textContent =
+                "Connected to multiplayer.";
 
             socket.send(
                 JSON.stringify({
-
                     type: "join",
-
-                    name: name
-
+                    name:
+                        document.getElementById(
+                            "nameInput"
+                        ).value.trim() ||
+                        "Player"
                 })
             );
-
         }
     );
 
-
-    /* Messages */
 
     socket.addEventListener(
         "message",
         event => {
 
+            let data;
+
             try {
+                data =
+                    JSON.parse(event.data);
+            } catch {
+                return;
+            }
 
-                const message =
-                    JSON.parse(
-                        event.data
-                    );
+
+            /* -------------------------
+               WELCOME
+            ------------------------- */
+
+            if (
+                data.type === "welcome"
+            ) {
+
+                myId =
+                    data.id;
+
+                return;
+            }
 
 
-                /* Our ID */
+            /* -------------------------
+               SNAPSHOT
+            ------------------------- */
 
-                if (
-                    message.type
-                    ===
-                    "welcome"
+            if (
+                data.type === "snapshot"
+            ) {
+
+                const seen =
+                    new Set();
+
+
+                for (
+                    const p of data.players
                 ) {
 
-                    myId =
-                        message.id;
-
-                }
-
-
-                /* Player snapshot */
-
-                if (
-                    message.type
-                    ===
-                    "snapshot"
-                ) {
-
-                    const connected =
-                        new Set();
-
-
-                    for (
-                        const remote
-                        of message.players
+                    if (
+                        p.id === myId
                     ) {
+                        continue;
+                    }
 
-                        if (
-                            remote.id
-                            ===
-                            myId
-                        ) {
-
-                            continue;
-
-                        }
+                    seen.add(p.id);
 
 
-                        connected.add(
-                            remote.id
+                    let remote =
+                        remotePlayers.get(
+                            p.id
                         );
 
 
-                        /* New player */
+                    if (!remote) {
 
-                        if (
-                            !remotePlayers.has(
-                                remote.id
-                            )
-                        ) {
-
-                            remotePlayers.set(
-
-                                remote.id,
-
-                                createRemotePlayer(
-                                    remote.name
-                                )
-
+                        remote =
+                            createRemotePlayer(
+                                p
                             );
 
-                        }
-
-
-                        const playerObject =
-                            remotePlayers.get(
-                                remote.id
-                            );
-
-
-                        playerObject.target.set(
-
-                            remote.x,
-
-                            remote.y,
-
-                            remote.z
-
+                        remotePlayers.set(
+                            p.id,
+                            remote
                         );
 
+                    } else {
 
-                        playerObject.yaw =
-                            remote.yaw;
+                        remote.target.set(
+                            p.x,
+                            p.y - 1.7,
+                            p.z
+                        );
 
+                        remote.yaw =
+                            p.yaw || 0;
                     }
-
-
-                    /* Remove disconnected */
-
-                    for (
-                        const [
-                            id
-                        ]
-                        of remotePlayers
-                    ) {
-
-                        if (
-                            !connected.has(
-                                id
-                            )
-                        ) {
-
-                            removeRemotePlayer(
-                                id
-                            );
-
-                        }
-
-                    }
-
-
-                    document.getElementById(
-                        "players"
-                    ).textContent =
-                        `Players: ${message.players.length}`;
-
                 }
 
+
+                /* Remove players
+                   who disconnected */
+
+                for (
+                    const [
+                        id,
+                        remote
+                    ]
+                    of remotePlayers
+                ) {
+
+                    if (!seen.has(id)) {
+
+                        scene.remove(
+                            remote.mesh
+                        );
+
+                        remote.mesh.traverse(
+                            object => {
+
+                                if (
+                                    object.material &&
+                                    object.material.map
+                                ) {
+                                    object.material.map.dispose();
+                                }
+
+                                if (
+                                    object.material
+                                ) {
+                                    object.material.dispose();
+                                }
+
+                                if (
+                                    object.geometry
+                                ) {
+                                    object.geometry.dispose();
+                                }
+                            }
+                        );
+
+                        remotePlayers.delete(id);
+                    }
+                }
+
+
+                document.getElementById(
+                    "playerCount"
+                ).textContent =
+                    data.players.length;
             }
-
-            catch (error) {
-
-                console.error(
-                    error
-                );
-
-            }
-
         }
     );
 
-
-    /* Disconnected */
 
     socket.addEventListener(
         "close",
@@ -1667,105 +1559,198 @@ function connectMultiplayer() {
             document.getElementById(
                 "status"
             ).textContent =
-                "Disconnected — reconnecting...";
-
+                "Multiplayer disconnected. Reconnecting...";
 
             setTimeout(
-                () => {
-
-                    if (
-                        gameStarted
-                    ) {
-
-                        connectMultiplayer();
-
-                    }
-
-                },
+                connectMultiplayer,
                 3000
             );
-
         }
     );
-
-
-    /* Error */
-
-    socket.addEventListener(
-        "error",
-        () => {
-
-            document.getElementById(
-                "status"
-            ).textContent =
-                "Connection error";
-
-        }
-    );
-
 }
 
 
 /* =========================================================
-   SEND POSITION
+   SEND PLAYER POSITION
 ========================================================= */
 
-function sendPosition(
-    time
-) {
+let lastNetworkUpdate = 0;
+
+
+function sendPlayerPosition(time) {
 
     if (
-        !socket
-        ||
-        socket.readyState
-        !==
+        !socket ||
+        socket.readyState !==
         WebSocket.OPEN
     ) {
-
         return;
-
     }
 
-
-    /* Send at roughly 20 times/sec */
 
     if (
-        time - lastNetworkSend
-        < 50
+        time - lastNetworkUpdate <
+        50
     ) {
-
         return;
-
     }
 
 
-    lastNetworkSend =
+    lastNetworkUpdate =
         time;
 
 
     socket.send(
-
         JSON.stringify({
-
             type: "move",
 
-            x:
-                player.position.x,
+            x: player.position.x,
+            y: player.position.y,
+            z: player.position.z,
 
-            y:
-                player.position.y,
-
-            z:
-                player.position.z,
-
-            yaw:
-                player.yaw
-
+            yaw: player.yaw
         })
+    );
+}
 
+
+/* =========================================================
+   INTERPOLATE REMOTE PLAYERS
+========================================================= */
+
+function updateRemotePlayers() {
+
+    for (
+        const remote
+        of remotePlayers.values()
+    ) {
+
+        remote.mesh.position.lerp(
+            remote.target,
+            .25
+        );
+
+        remote.mesh.rotation.y =
+            remote.yaw;
+    }
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
+let gameStarted = false;
+
+const startScreen =
+    document.getElementById(
+        "startScreen"
     );
 
+const playButton =
+    document.getElementById(
+        "playButton"
+    );
+
+
+playButton.addEventListener(
+    "click",
+    startGame
+);
+
+
+document.getElementById(
+    "nameInput"
+).addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter"
+        ) {
+            startGame();
+        }
+    }
+);
+
+
+function startGame() {
+
+    if (gameStarted) {
+        return;
+    }
+
+    gameStarted = true;
+
+    const name =
+        document.getElementById(
+            "nameInput"
+        ).value.trim();
+
+    if (!name) {
+
+        document.getElementById(
+            "nameInput"
+        ).value =
+            "Player";
+    }
+
+
+    startScreen.style.display =
+        "none";
+
+
+    camera.position.copy(
+        player.position
+    );
+
+    updateCameraRotation();
+
+
+    connectMultiplayer();
+
+
+    /*
+       Desktop gets pointer lock
+       after pressing PLAY.
+    */
+
+    if (
+        !("ontouchstart" in window)
+    ) {
+
+        setTimeout(
+            () => {
+
+                renderer.domElement.requestPointerLock();
+
+            },
+            100
+        );
+    }
 }
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+    }
+);
 
 
 /* =========================================================
@@ -1776,9 +1761,7 @@ const clock =
     new THREE.Clock();
 
 
-function animate(
-    time
-) {
+function animate(time) {
 
     requestAnimationFrame(
         animate
@@ -1794,311 +1777,25 @@ function animate(
 
     if (gameStarted) {
 
+        movePlayer(delta);
 
-        let forward = 0;
-
-        let strafe = 0;
-
-
-        /* PC */
-
-        if (
-            keys.KeyW
-        ) {
-
-            forward += 1;
-
-        }
-
-
-        if (
-            keys.KeyS
-        ) {
-
-            forward -= 1;
-
-        }
-
-
-        if (
-            keys.KeyD
-        ) {
-
-            strafe += 1;
-
-        }
-
-
-        if (
-            keys.KeyA
-        ) {
-
-            strafe -= 1;
-
-        }
-
-
-        /* Mobile */
-
-        if (
-            isMobile()
-        ) {
-
-            strafe +=
-                joystickX;
-
-
-            forward -=
-                joystickY;
-
-        }
-
-
-        /* Normalize */
-
-        const length =
-            Math.hypot(
-                forward,
-                strafe
-            );
-
-
-        if (
-            length > 1
-        ) {
-
-            forward /=
-                length;
-
-
-            strafe /=
-                length;
-
-        }
-
-
-        /* Speed */
-
-        const sprint =
-            keys.ShiftLeft
-            ||
-            keys.ShiftRight;
-
-
-        const speed =
-            sprint
-                ? 8
-                : 4.5;
-
-
-        /* Movement */
-
-        const dx = (
-
-            Math.sin(
-                player.yaw
-            )
-            *
-            forward
-
-            +
-
-            Math.cos(
-                player.yaw
-            )
-            *
-            strafe
-
-        )
-        *
-        speed
-        *
-        delta;
-
-
-        const dz = (
-
-            -Math.cos(
-                player.yaw
-            )
-            *
-            forward
-
-            -
-
-            Math.sin(
-                player.yaw
-            )
-            *
-            strafe
-
-        )
-        *
-        speed
-        *
-        delta;
-
-
-        /* Collision X */
-
-        if (
-            !blocked(
-                player.position.x
-                +
-                dx,
-
-                player.position.z
-            )
-        ) {
-
-            player.position.x +=
-                dx;
-
-        }
-
-
-        /* Collision Z */
-
-        if (
-            !blocked(
-
-                player.position.x,
-
-                player.position.z
-                +
-                dz
-
-            )
-        ) {
-
-            player.position.z +=
-                dz;
-
-        }
-
-
-        /* Camera */
-
-        camera.position.copy(
-            player.position
+        sendPlayerPosition(
+            performance.now()
         );
-
-
-        camera.rotation.order =
-            "YXZ";
-
-
-        camera.rotation.y =
-            player.yaw;
-
-
-        camera.rotation.x =
-            player.pitch;
-
-
-        /* Send to server */
-
-        sendPosition(
-            time
-        );
-
     }
 
 
-    /* Smooth remote players */
-
-    for (
-        const remote
-        of remotePlayers.values()
-    ) {
-
-        remote.mesh.position.lerp(
-            remote.target,
-            .25
-        );
-
-
-        remote.mesh.rotation.y =
-            remote.yaw;
-
-    }
+    updateRemotePlayers();
 
 
     renderer.render(
         scene,
         camera
     );
-
 }
 
 
 animate();
-
-
-/* =========================================================
-   START GAME
-========================================================= */
-
-document
-    .getElementById(
-        "startButton"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            gameStarted =
-                true;
-
-
-            document
-                .getElementById(
-                    "startScreen"
-                )
-                .style.display =
-                    "none";
-
-
-            connectMultiplayer();
-
-
-            if (
-                !isMobile()
-            ) {
-
-                renderer
-                    .domElement
-                    .requestPointerLock();
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   RESIZE
-========================================================= */
-
-window.addEventListener(
-    "resize",
-    () => {
-
-        camera.aspect =
-            innerWidth /
-            innerHeight;
-
-
-        camera.updateProjectionMatrix();
-
-
-        renderer.setSize(
-            innerWidth,
-            innerHeight
-        );
-
-    }
-);
 
 </script>
 
