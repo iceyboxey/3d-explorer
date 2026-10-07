@@ -2,219 +2,119 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3D Explorer</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    html, body {
-        margin: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #000;
-        font-family: Arial, sans-serif;
-        touch-action: none;
-        user-select: none;
-    }
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: Arial, sans-serif;
+}
 
-    canvas {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
+canvas {
+    display: block;
+}
 
-    #startScreen {
-        position: fixed;
-        inset: 0;
-        z-index: 100;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background:
-            radial-gradient(circle at center, #182238 0%, #080b12 65%, #030406 100%);
-        color: white;
-    }
+#startScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #101722;
+    color: white;
+}
 
-    #startBox {
-        width: min(420px, 90vw);
-        padding: 28px;
-        border-radius: 18px;
-        background: rgba(10, 14, 24, 0.94);
-        border: 1px solid rgba(255,255,255,.12);
-        box-shadow: 0 20px 80px rgba(0,0,0,.5);
-        text-align: center;
-    }
+#startBox {
+    width: 350px;
+    padding: 30px;
+    text-align: center;
+    background: #182131;
+    border-radius: 15px;
+}
 
-    #startBox h1 {
-        margin: 0 0 8px;
-        font-size: 32px;
-    }
+#startBox h1 {
+    margin-top: 0;
+}
 
-    #startBox p {
-        color: #aeb7c7;
-        line-height: 1.5;
-        margin: 8px 0 20px;
-    }
+#nameInput {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 16px;
+}
 
-    #nameInput {
-        width: 100%;
-        padding: 13px;
-        border-radius: 10px;
-        border: 1px solid #39445b;
-        background: #111827;
-        color: white;
-        outline: none;
-        font-size: 16px;
-        margin-bottom: 12px;
-    }
+#playButton {
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 8px;
+    background: #4287ff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    #playButton {
-        width: 100%;
-        padding: 14px;
-        border: 0;
-        border-radius: 10px;
-        background: #4c8dff;
-        color: white;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+#status {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #aaa;
+}
 
-    #playButton:active {
-        transform: scale(.98);
-    }
+#hud {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 5;
+    color: white;
+    background: rgba(0,0,0,.45);
+    padding: 8px 12px;
+    border-radius: 8px;
+    pointer-events: none;
+}
 
-    #status {
-        margin-top: 12px;
-        min-height: 20px;
-        font-size: 13px;
-        color: #8f9bad;
-    }
+#crosshair {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    margin-top: -4px;
+    z-index: 4;
+    pointer-events: none;
+}
 
-    #hud {
-        position: fixed;
-        top: 14px;
-        left: 14px;
-        z-index: 20;
-        color: white;
-        background: rgba(0,0,0,.42);
-        border: 1px solid rgba(255,255,255,.08);
-        border-radius: 10px;
-        padding: 8px 11px;
-        font-size: 13px;
-        pointer-events: none;
-        backdrop-filter: blur(6px);
-    }
+#crosshair::before,
+#crosshair::after {
+    content: "";
+    position: absolute;
+    background: white;
+}
 
-    #crosshair {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        width: 8px;
-        height: 8px;
-        margin-left: -4px;
-        margin-top: -4px;
-        z-index: 10;
-        pointer-events: none;
-    }
+#crosshair::before {
+    width: 8px;
+    height: 1px;
+    top: 3px;
+}
 
-    #crosshair::before,
-    #crosshair::after {
-        content: "";
-        position: absolute;
-        background: white;
-        opacity: .8;
-    }
-
-    #crosshair::before {
-        width: 8px;
-        height: 1px;
-        top: 3px;
-        left: 0;
-    }
-
-    #crosshair::after {
-        width: 1px;
-        height: 8px;
-        left: 3px;
-        top: 0;
-    }
-
-    /* Mobile controls */
-
-    #mobileControls {
-        position: fixed;
-        inset: 0;
-        z-index: 30;
-        display: none;
-        pointer-events: none;
-    }
-
-    #joystickArea {
-        position: absolute;
-        left: 20px;
-        bottom: 25px;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: rgba(255,255,255,.07);
-        border: 2px solid rgba(255,255,255,.18);
-        pointer-events: auto;
-    }
-
-    #joystickKnob {
-        position: absolute;
-        width: 62px;
-        height: 62px;
-        left: 44px;
-        top: 44px;
-        border-radius: 50%;
-        background: rgba(255,255,255,.28);
-        border: 2px solid rgba(255,255,255,.4);
-        box-shadow: 0 4px 20px rgba(0,0,0,.25);
-        pointer-events: none;
-    }
-
-    #lookArea {
-        position: absolute;
-        left: 40%;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        pointer-events: auto;
-    }
-
-    #mobileHint {
-        position: absolute;
-        right: 18px;
-        bottom: 18px;
-        color: rgba(255,255,255,.45);
-        font-size: 12px;
-        pointer-events: none;
-    }
-
-    @media (pointer: coarse) {
-        #mobileControls {
-            display: block;
-        }
-
-        #crosshair {
-            display: none;
-        }
-    }
-
-    @media (pointer: fine) {
-        #crosshair {
-            display: block;
-        }
-    }
+#crosshair::after {
+    width: 1px;
+    height: 8px;
+    left: 3px;
+}
 </style>
 </head>
 
@@ -225,22 +125,24 @@
         <h1>3D Explorer</h1>
 
         <p>
-            Explore the world and play with other players.
-            <br><br>
-            PC: WASD + mouse<br>
-            Mobile: joystick + swipe
+            <b>W</b> = move forward<br>
+            <b>Mouse</b> = look around
         </p>
 
         <input
             id="nameInput"
             maxlength="16"
-            placeholder="Your name"
             value="Player"
+            placeholder="Your name"
         >
 
-        <button id="playButton">PLAY</button>
+        <button id="playButton">
+            PLAY
+        </button>
 
-        <div id="status">Connecting...</div>
+        <div id="status">
+            Connecting...
+        </div>
     </div>
 </div>
 
@@ -250,31 +152,20 @@
 
 <div id="crosshair"></div>
 
-<div id="mobileControls">
-    <div id="joystickArea">
-        <div id="joystickKnob"></div>
-    </div>
-
-    <div id="lookArea"></div>
-
-    <div id="mobileHint">
-        Left = move · Right = look
-    </div>
-</div>
-
 <script type="module">
 
 import * as THREE from
-    "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
 
-/* =========================================================
-   BASIC SETUP
-========================================================= */
+/* =====================================================
+   THREE.JS
+===================================================== */
 
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color(0x87b8e6);
+scene.background =
+    new THREE.Color(0x87b8e6);
 
 scene.fog = new THREE.Fog(
     0x87b8e6,
@@ -283,23 +174,20 @@ scene.fog = new THREE.Fog(
 );
 
 
-const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.05,
-    500
-);
-
-camera.position.set(
-    0,
-    1.7,
-    8
-);
+const camera =
+    new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth /
+        window.innerHeight,
+        0.05,
+        500
+    );
 
 
-const renderer = new THREE.WebGLRenderer({
-    antialias: true
-});
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias: true
+    });
 
 renderer.setPixelRatio(
     Math.min(window.devicePixelRatio, 2)
@@ -311,28 +199,31 @@ renderer.setSize(
 );
 
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-document.body.appendChild(renderer.domElement);
-
-
-/* =========================================================
-   LIGHTING
-========================================================= */
-
-const hemiLight = new THREE.HemisphereLight(
-    0xddeeff,
-    0x405040,
-    1.8
+document.body.appendChild(
+    renderer.domElement
 );
 
-scene.add(hemiLight);
+
+/* =====================================================
+   LIGHT
+===================================================== */
+
+const hemisphere =
+    new THREE.HemisphereLight(
+        0xffffff,
+        0x405040,
+        1.8
+    );
+
+scene.add(hemisphere);
 
 
-const sun = new THREE.DirectionalLight(
-    0xffffff,
-    2.2
-);
+const sun =
+    new THREE.DirectionalLight(
+        0xffffff,
+        2
+    );
 
 sun.position.set(
     40,
@@ -342,96 +233,96 @@ sun.position.set(
 
 sun.castShadow = true;
 
-sun.shadow.mapSize.width = 2048;
-sun.shadow.mapSize.height = 2048;
-
-sun.shadow.camera.left = -100;
-sun.shadow.camera.right = 100;
-sun.shadow.camera.top = 100;
-sun.shadow.camera.bottom = -100;
-
 scene.add(sun);
 
 
-/* =========================================================
-   WORLD
-========================================================= */
+/* =====================================================
+   GROUND
+===================================================== */
 
-const groundMaterial = new THREE.MeshStandardMaterial({
-    color: 0x477a42,
-    roughness: 1
-});
+const ground =
+    new THREE.Mesh(
+        new THREE.PlaneGeometry(
+            500,
+            500
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0x477a42
+        })
+    );
 
-const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(500, 500),
-    groundMaterial
-);
+ground.rotation.x =
+    -Math.PI / 2;
 
-ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 
 scene.add(ground);
 
 
-/* =========================================================
+/* =====================================================
    DETERMINISTIC RANDOM
-   Makes the world the same for everyone.
-========================================================= */
+===================================================== */
 
 let seed = 123456789;
 
 function random() {
-    seed = (
-        seed * 1664525 +
-        1013904223
-    ) >>> 0;
+
+    seed =
+        (seed * 1664525 +
+        1013904223) >>> 0;
 
     return seed / 4294967296;
 }
 
 
-/* =========================================================
+/* =====================================================
    TREES
-========================================================= */
+===================================================== */
 
 function createTree(x, z) {
 
-    const tree = new THREE.Group();
+    const tree =
+        new THREE.Group();
 
-    const trunk = new THREE.Mesh(
-        new THREE.CylinderGeometry(
-            .25,
-            .35,
-            3,
-            8
-        ),
-        new THREE.MeshStandardMaterial({
-            color: 0x68452c
-        })
-    );
+
+    const trunk =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                .25,
+                .35,
+                3,
+                8
+            ),
+            new THREE.MeshStandardMaterial({
+                color: 0x68452c
+            })
+        );
 
     trunk.position.y = 1.5;
+
     trunk.castShadow = true;
 
     tree.add(trunk);
 
 
-    const leaves = new THREE.Mesh(
-        new THREE.ConeGeometry(
-            2.0,
-            4.5,
-            8
-        ),
-        new THREE.MeshStandardMaterial({
-            color: 0x245c2b
-        })
-    );
+    const leaves =
+        new THREE.Mesh(
+            new THREE.ConeGeometry(
+                2,
+                4.5,
+                8
+            ),
+            new THREE.MeshStandardMaterial({
+                color: 0x245c2b
+            })
+        );
 
     leaves.position.y = 4;
 
     leaves.castShadow = true;
 
     tree.add(leaves);
+
 
     tree.position.set(
         x,
@@ -451,7 +342,7 @@ for (let i = 0; i < 70; i++) {
     const z =
         (random() - .5) * 180;
 
-    // Keep starting area clear
+
     if (
         Math.abs(x) < 15 &&
         Math.abs(z) < 15
@@ -463,12 +354,9 @@ for (let i = 0; i < 70; i++) {
 }
 
 
-/* =========================================================
+/* =====================================================
    BUILDINGS
-========================================================= */
-
-const collisionBoxes = [];
-
+===================================================== */
 
 function createBuilding(
     x,
@@ -478,20 +366,18 @@ function createBuilding(
     depth
 ) {
 
-    const material =
-        new THREE.MeshStandardMaterial({
-            color: 0x747b87,
-            roughness: .8
-        });
+    const building =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                width,
+                height,
+                depth
+            ),
+            new THREE.MeshStandardMaterial({
+                color: 0x747b87
+            })
+        );
 
-    const building = new THREE.Mesh(
-        new THREE.BoxGeometry(
-            width,
-            height,
-            depth
-        ),
-        material
-    );
 
     building.position.set(
         x,
@@ -503,13 +389,6 @@ function createBuilding(
     building.receiveShadow = true;
 
     scene.add(building);
-
-    collisionBoxes.push({
-        minX: x - width / 2,
-        maxX: x + width / 2,
-        minZ: z - depth / 2,
-        maxZ: z + depth / 2
-    });
 }
 
 
@@ -554,16 +433,18 @@ createBuilding(
 );
 
 
-/* =========================================================
+/* =====================================================
    PLAYER
-========================================================= */
+===================================================== */
 
 const player = {
-    position: new THREE.Vector3(
-        0,
-        1.7,
-        8
-    ),
+
+    position:
+        new THREE.Vector3(
+            0,
+            1.7,
+            8
+        ),
 
     yaw: 0,
 
@@ -576,40 +457,44 @@ camera.position.copy(
 );
 
 
-/* =========================================================
-   INPUT
-========================================================= */
+/* =====================================================
+   GAME STATE
+===================================================== */
 
-const keys = Object.create(null);
+let gameStarted = false;
+
+
+/* =====================================================
+   W KEY ONLY
+===================================================== */
+
+let wPressed = false;
+
 
 window.addEventListener(
     "keydown",
     event => {
 
-        keys[event.code] = true;
+        if (event.code === "KeyW") {
 
-        if (
-            [
-                "KeyW",
-                "KeyA",
-                "KeyS",
-                "KeyD",
-                "ShiftLeft",
-                "ShiftRight",
-                "Space"
-            ].includes(event.code)
-        ) {
+            wPressed = true;
+
             event.preventDefault();
         }
-    },
-    { passive: false }
+    }
 );
 
 
 window.addEventListener(
     "keyup",
     event => {
-        keys[event.code] = false;
+
+        if (event.code === "KeyW") {
+
+            wPressed = false;
+
+            event.preventDefault();
+        }
     }
 );
 
@@ -618,33 +503,26 @@ window.addEventListener(
     "blur",
     () => {
 
-        for (const key in keys) {
-            keys[key] = false;
-        }
-
-        joystick.x = 0;
-        joystick.y = 0;
-
-        resetJoystick();
+        wPressed = false;
     }
 );
 
 
-/* =========================================================
+/* =====================================================
    MOUSE LOOK
-========================================================= */
+===================================================== */
 
 let mouseLocked = false;
+
 
 renderer.domElement.addEventListener(
     "click",
     () => {
 
-        if (
-            !("ontouchstart" in window) &&
-            gameStarted
-        ) {
-            renderer.domElement.requestPointerLock();
+        if (gameStarted) {
+
+            renderer.domElement
+                .requestPointerLock();
         }
     }
 );
@@ -669,244 +547,14 @@ document.addEventListener(
             return;
         }
 
+
         player.yaw -=
             event.movementX * 0.0025;
+
 
         player.pitch -=
             event.movementY * 0.0025;
 
-        player.pitch = THREE.MathUtils.clamp(
-            player.pitch,
-            -1.45,
-            1.45
-        );
-
-        updateCameraRotation();
-    }
-);
-
-
-/* =========================================================
-   MOBILE JOYSTICK
-========================================================= */
-
-const joystickArea =
-    document.getElementById("joystickArea");
-
-const joystickKnob =
-    document.getElementById("joystickKnob");
-
-const lookArea =
-    document.getElementById("lookArea");
-
-
-const joystick = {
-    x: 0,
-    y: 0,
-    pointerId: null
-};
-
-
-const joystickRadius = 44;
-
-
-function resetJoystick() {
-
-    joystick.x = 0;
-    joystick.y = 0;
-
-    joystickKnob.style.transform =
-        "translate(0px, 0px)";
-}
-
-
-function updateJoystick(
-    clientX,
-    clientY
-) {
-
-    const rect =
-        joystickArea.getBoundingClientRect();
-
-    const centerX =
-        rect.left + rect.width / 2;
-
-    const centerY =
-        rect.top + rect.height / 2;
-
-    let dx =
-        clientX - centerX;
-
-    let dy =
-        clientY - centerY;
-
-    const distance =
-        Math.hypot(dx, dy);
-
-    if (distance > joystickRadius) {
-
-        dx =
-            dx / distance *
-            joystickRadius;
-
-        dy =
-            dy / distance *
-            joystickRadius;
-    }
-
-    joystick.x =
-        dx / joystickRadius;
-
-    joystick.y =
-        dy / joystickRadius;
-
-    joystickKnob.style.transform =
-        `translate(${dx}px, ${dy}px)`;
-}
-
-
-joystickArea.addEventListener(
-    "pointerdown",
-    event => {
-
-        if (joystick.pointerId !== null) {
-            return;
-        }
-
-        joystick.pointerId =
-            event.pointerId;
-
-        joystickArea.setPointerCapture(
-            event.pointerId
-        );
-
-        updateJoystick(
-            event.clientX,
-            event.clientY
-        );
-
-        event.preventDefault();
-    },
-    { passive: false }
-);
-
-
-joystickArea.addEventListener(
-    "pointermove",
-    event => {
-
-        if (
-            event.pointerId !==
-            joystick.pointerId
-        ) {
-            return;
-        }
-
-        updateJoystick(
-            event.clientX,
-            event.clientY
-        );
-
-        event.preventDefault();
-    },
-    { passive: false }
-);
-
-
-function endJoystick(event) {
-
-    if (
-        event.pointerId !==
-        joystick.pointerId
-    ) {
-        return;
-    }
-
-    joystick.pointerId = null;
-
-    resetJoystick();
-
-    event.preventDefault();
-}
-
-
-joystickArea.addEventListener(
-    "pointerup",
-    endJoystick,
-    { passive: false }
-);
-
-joystickArea.addEventListener(
-    "pointercancel",
-    endJoystick,
-    { passive: false }
-);
-
-
-/* =========================================================
-   MOBILE LOOK
-========================================================= */
-
-let lookPointerId = null;
-let lastLookX = 0;
-let lastLookY = 0;
-
-
-lookArea.addEventListener(
-    "pointerdown",
-    event => {
-
-        if (lookPointerId !== null) {
-            return;
-        }
-
-        lookPointerId =
-            event.pointerId;
-
-        lastLookX =
-            event.clientX;
-
-        lastLookY =
-            event.clientY;
-
-        lookArea.setPointerCapture(
-            event.pointerId
-        );
-
-        event.preventDefault();
-    },
-    { passive: false }
-);
-
-
-lookArea.addEventListener(
-    "pointermove",
-    event => {
-
-        if (
-            event.pointerId !==
-            lookPointerId
-        ) {
-            return;
-        }
-
-        const dx =
-            event.clientX - lastLookX;
-
-        const dy =
-            event.clientY - lastLookY;
-
-        lastLookX =
-            event.clientX;
-
-        lastLookY =
-            event.clientY;
-
-        player.yaw -=
-            dx * 0.006;
-
-        player.pitch -=
-            dy * 0.006;
 
         player.pitch =
             THREE.MathUtils.clamp(
@@ -915,266 +563,59 @@ lookArea.addEventListener(
                 1.45
             );
 
-        updateCameraRotation();
 
-        event.preventDefault();
-    },
-    { passive: false }
-);
+        camera.rotation.order =
+            "YXZ";
 
 
-function endLook(event) {
+        camera.rotation.y =
+            player.yaw;
 
-    if (
-        event.pointerId !==
-        lookPointerId
-    ) {
-        return;
+
+        camera.rotation.x =
+            player.pitch;
     }
-
-    lookPointerId = null;
-
-    event.preventDefault();
-}
-
-
-lookArea.addEventListener(
-    "pointerup",
-    endLook,
-    { passive: false }
-);
-
-lookArea.addEventListener(
-    "pointercancel",
-    endLook,
-    { passive: false }
 );
 
 
-/* =========================================================
-   CAMERA
-========================================================= */
-
-function updateCameraRotation() {
-
-    camera.rotation.order = "YXZ";
-
-    camera.rotation.y =
-        player.yaw;
-
-    camera.rotation.x =
-        player.pitch;
-}
-
-
-/* =========================================================
-   COLLISION
-========================================================= */
-
-function collides(
-    x,
-    z
-) {
-
-    const radius = .45;
-
-    for (const box of collisionBoxes) {
-
-        if (
-            x + radius > box.minX &&
-            x - radius < box.maxX &&
-            z + radius > box.minZ &&
-            z - radius < box.maxZ
-        ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
-/* =========================================================
+/* =====================================================
    MOVEMENT
-========================================================= */
-
-const moveDirection =
-    new THREE.Vector3();
-
-const forwardDirection =
-    new THREE.Vector3();
-
-const rightDirection =
-    new THREE.Vector3();
-
-
-function getMovementInput() {
-
-    let forward = 0;
-    let strafe = 0;
-
-
-    /* -------------------------
-       KEYBOARD
-    ------------------------- */
-
-    if (keys["KeyW"]) {
-        forward += 1;
-    }
-
-    if (keys["KeyS"]) {
-        forward -= 1;
-    }
-
-    if (keys["KeyD"]) {
-        strafe += 1;
-    }
-
-    if (keys["KeyA"]) {
-        strafe -= 1;
-    }
-
-
-    /* -------------------------
-       MOBILE JOYSTICK
-    ------------------------- */
-
-    if (
-        Math.abs(joystick.x) > 0.01 ||
-        Math.abs(joystick.y) > 0.01
-    ) {
-
-        // Joystick UP = negative screen Y
-        // Therefore joystick.y must be inverted.
-        forward += -joystick.y;
-        strafe += joystick.x;
-    }
-
-
-    /* -------------------------
-       NORMALIZE
-       Prevents diagonal speed boost.
-    ------------------------- */
-
-    const length =
-        Math.hypot(
-            forward,
-            strafe
-        );
-
-    if (length > 1) {
-
-        forward /= length;
-        strafe /= length;
-    }
-
-
-    return {
-        forward,
-        strafe
-    };
-}
-
+===================================================== */
 
 function movePlayer(delta) {
 
-    const input =
-        getMovementInput();
-
-    if (
-        Math.abs(input.forward) < 0.001 &&
-        Math.abs(input.strafe) < 0.001
-    ) {
+    if (!wPressed) {
         return;
     }
 
 
-    /* 
-       At yaw = 0:
-       forward = -Z
-       right   = +X
-    */
-
-    forwardDirection.set(
-        Math.sin(player.yaw),
-        0,
-        -Math.cos(player.yaw)
-    );
-
-    rightDirection.set(
-        Math.cos(player.yaw),
-        0,
-        Math.sin(player.yaw)
-    );
-
-
-    moveDirection.set(0, 0, 0);
-
-    moveDirection.addScaledVector(
-        forwardDirection,
-        input.forward
-    );
-
-    moveDirection.addScaledVector(
-        rightDirection,
-        input.strafe
-    );
-
-
-    if (moveDirection.lengthSq() > 1) {
-        moveDirection.normalize();
-    }
-
-
-    let speed = 6;
-
-    if (
-        keys["ShiftLeft"] ||
-        keys["ShiftRight"]
-    ) {
-        speed = 10;
-    }
-
-
-    const distance =
-        speed * delta;
-
-
-    const nextX =
-        player.position.x +
-        moveDirection.x * distance;
-
-    const nextZ =
-        player.position.z +
-        moveDirection.z * distance;
+    const speed = 6;
 
 
     /*
-       Check X and Z separately.
-       This lets you slide along walls
-       instead of getting completely stuck.
+       This is the ONLY movement direction.
+
+       W always moves in the direction
+       the player is looking.
     */
 
-    if (
-        !collides(
-            nextX,
-            player.position.z
-        )
-    ) {
-        player.position.x =
-            nextX;
-    }
+    const forwardX =
+        Math.sin(player.yaw);
+
+    const forwardZ =
+        -Math.cos(player.yaw);
 
 
-    if (
-        !collides(
-            player.position.x,
-            nextZ
-        )
-    ) {
-        player.position.z =
-            nextZ;
-    }
+    player.position.x +=
+        forwardX *
+        speed *
+        delta;
+
+
+    player.position.z +=
+        forwardZ *
+        speed *
+        delta;
 
 
     camera.position.copy(
@@ -1183,9 +624,9 @@ function movePlayer(delta) {
 }
 
 
-/* =========================================================
+/* =====================================================
    MULTIPLAYER
-========================================================= */
+===================================================== */
 
 let socket = null;
 let myId = null;
@@ -1197,20 +638,17 @@ const remotePlayers =
 function createNameSprite(name) {
 
     const canvas =
-        document.createElement("canvas");
+        document.createElement(
+            "canvas"
+        );
 
     canvas.width = 512;
     canvas.height = 128;
 
+
     const ctx =
         canvas.getContext("2d");
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
 
     ctx.font =
         "bold 48px Arial";
@@ -1221,18 +659,21 @@ function createNameSprite(name) {
     ctx.textBaseline =
         "middle";
 
+
     ctx.fillStyle =
         "rgba(0,0,0,.65)";
 
     ctx.fillRect(
-        70,
+        60,
         15,
-        372,
+        392,
         98
     );
 
+
     ctx.fillStyle =
         "white";
+
 
     ctx.fillText(
         name,
@@ -1240,26 +681,32 @@ function createNameSprite(name) {
         64
     );
 
-    const texture =
-        new THREE.CanvasTexture(canvas);
 
-    texture.needsUpdate = true;
+    const texture =
+        new THREE.CanvasTexture(
+            canvas
+        );
+
 
     const material =
         new THREE.SpriteMaterial({
             map: texture,
-            transparent: true,
-            depthTest: false
+            transparent: true
         });
 
+
     const sprite =
-        new THREE.Sprite(material);
+        new THREE.Sprite(
+            material
+        );
+
 
     sprite.scale.set(
         3.2,
         .8,
         1
     );
+
 
     return sprite;
 }
@@ -1275,7 +722,7 @@ function createRemotePlayer(data) {
         new THREE.Mesh(
             new THREE.CapsuleGeometry(
                 .38,
-                1.0,
+                1,
                 5,
                 10
             ),
@@ -1284,9 +731,9 @@ function createRemotePlayer(data) {
             })
         );
 
-    body.position.y = .75;
 
-    body.castShadow = true;
+    body.position.y =
+        .75;
 
     group.add(body);
 
@@ -1303,9 +750,9 @@ function createRemotePlayer(data) {
             })
         );
 
-    head.position.y = 1.65;
 
-    head.castShadow = true;
+    head.position.y =
+        1.65;
 
     group.add(head);
 
@@ -1315,7 +762,9 @@ function createRemotePlayer(data) {
             data.name || "Player"
         );
 
-    name.position.y = 2.35;
+
+    name.position.y =
+        2.35;
 
     group.add(name);
 
@@ -1326,45 +775,32 @@ function createRemotePlayer(data) {
         data.z
     );
 
-    group.rotation.y =
-        data.yaw || 0;
 
     scene.add(group);
 
+
     return {
+
         mesh: group,
-        target: new THREE.Vector3(
-            data.x,
-            data.y - 1.7,
-            data.z
-        ),
-        yaw: data.yaw || 0
+
+        target:
+            new THREE.Vector3(
+                data.x,
+                data.y - 1.7,
+                data.z
+            ),
+
+        yaw:
+            data.yaw || 0
     };
 }
 
 
+/* =====================================================
+   CONNECT
+===================================================== */
+
 function connectMultiplayer() {
-
-    /*
-       When running on Render:
-       https://site.onrender.com
-       becomes:
-       wss://site.onrender.com/ws
-
-       When running over normal HTTP:
-       http://site
-       becomes:
-       ws://site/ws
-    */
-
-    if (!location.host) {
-
-        document.getElementById("status").textContent =
-            "Local file: multiplayer unavailable. Use Render.";
-
-        return;
-    }
-
 
     const protocol =
         location.protocol === "https:"
@@ -1372,19 +808,16 @@ function connectMultiplayer() {
             : "ws:";
 
 
-    const socketURL =
+    const url =
         `${protocol}//${location.host}/ws`;
 
 
     try {
 
         socket =
-            new WebSocket(socketURL);
+            new WebSocket(url);
 
-    } catch (error) {
-
-        document.getElementById("status").textContent =
-            "Could not connect to multiplayer.";
+    } catch {
 
         return;
     }
@@ -1394,16 +827,20 @@ function connectMultiplayer() {
         "open",
         () => {
 
-            document.getElementById("status").textContent =
-                "Connected to multiplayer.";
+            document.getElementById(
+                "status"
+            ).textContent =
+                "Connected";
+
 
             socket.send(
                 JSON.stringify({
                     type: "join",
+
                     name:
                         document.getElementById(
                             "nameInput"
-                        ).value.trim() ||
+                        ).value ||
                         "Player"
                 })
             );
@@ -1418,19 +855,21 @@ function connectMultiplayer() {
             let data;
 
             try {
+
                 data =
-                    JSON.parse(event.data);
+                    JSON.parse(
+                        event.data
+                    );
+
             } catch {
+
                 return;
             }
 
 
-            /* -------------------------
-               WELCOME
-            ------------------------- */
-
             if (
-                data.type === "welcome"
+                data.type ===
+                "welcome"
             ) {
 
                 myId =
@@ -1440,12 +879,9 @@ function connectMultiplayer() {
             }
 
 
-            /* -------------------------
-               SNAPSHOT
-            ------------------------- */
-
             if (
-                data.type === "snapshot"
+                data.type ===
+                "snapshot"
             ) {
 
                 const seen =
@@ -1453,7 +889,8 @@ function connectMultiplayer() {
 
 
                 for (
-                    const p of data.players
+                    const p
+                    of data.players
                 ) {
 
                     if (
@@ -1462,7 +899,10 @@ function connectMultiplayer() {
                         continue;
                     }
 
-                    seen.add(p.id);
+
+                    seen.add(
+                        p.id
+                    );
 
 
                     let remote =
@@ -1497,9 +937,6 @@ function connectMultiplayer() {
                 }
 
 
-                /* Remove players
-                   who disconnected */
-
                 for (
                     const [
                         id,
@@ -1508,37 +945,17 @@ function connectMultiplayer() {
                     of remotePlayers
                 ) {
 
-                    if (!seen.has(id)) {
+                    if (
+                        !seen.has(id)
+                    ) {
 
                         scene.remove(
                             remote.mesh
                         );
 
-                        remote.mesh.traverse(
-                            object => {
-
-                                if (
-                                    object.material &&
-                                    object.material.map
-                                ) {
-                                    object.material.map.dispose();
-                                }
-
-                                if (
-                                    object.material
-                                ) {
-                                    object.material.dispose();
-                                }
-
-                                if (
-                                    object.geometry
-                                ) {
-                                    object.geometry.dispose();
-                                }
-                            }
+                        remotePlayers.delete(
+                            id
                         );
-
-                        remotePlayers.delete(id);
                     }
                 }
 
@@ -1559,7 +976,7 @@ function connectMultiplayer() {
             document.getElementById(
                 "status"
             ).textContent =
-                "Multiplayer disconnected. Reconnecting...";
+                "Disconnected";
 
             setTimeout(
                 connectMultiplayer,
@@ -1570,14 +987,14 @@ function connectMultiplayer() {
 }
 
 
-/* =========================================================
-   SEND PLAYER POSITION
-========================================================= */
+/* =====================================================
+   SEND POSITION
+===================================================== */
 
-let lastNetworkUpdate = 0;
+let lastSend = 0;
 
 
-function sendPlayerPosition(time) {
+function sendPosition(time) {
 
     if (
         !socket ||
@@ -1589,34 +1006,39 @@ function sendPlayerPosition(time) {
 
 
     if (
-        time - lastNetworkUpdate <
-        50
+        time - lastSend < 50
     ) {
         return;
     }
 
 
-    lastNetworkUpdate =
-        time;
+    lastSend = time;
 
 
     socket.send(
         JSON.stringify({
+
             type: "move",
 
-            x: player.position.x,
-            y: player.position.y,
-            z: player.position.z,
+            x:
+                player.position.x,
 
-            yaw: player.yaw
+            y:
+                player.position.y,
+
+            z:
+                player.position.z,
+
+            yaw:
+                player.yaw
         })
     );
 }
 
 
-/* =========================================================
-   INTERPOLATE REMOTE PLAYERS
-========================================================= */
+/* =====================================================
+   UPDATE REMOTE PLAYERS
+===================================================== */
 
 function updateRemotePlayers() {
 
@@ -1636,104 +1058,53 @@ function updateRemotePlayers() {
 }
 
 
-/* =========================================================
-   START GAME
-========================================================= */
-
-let gameStarted = false;
-
-const startScreen =
-    document.getElementById(
-        "startScreen"
-    );
-
-const playButton =
-    document.getElementById(
-        "playButton"
-    );
-
-
-playButton.addEventListener(
-    "click",
-    startGame
-);
-
+/* =====================================================
+   START
+===================================================== */
 
 document.getElementById(
-    "nameInput"
+    "playButton"
 ).addEventListener(
-    "keydown",
-    event => {
+    "click",
+    () => {
 
-        if (
-            event.key === "Enter"
-        ) {
-            startGame();
-        }
-    }
-);
+        gameStarted = true;
 
-
-function startGame() {
-
-    if (gameStarted) {
-        return;
-    }
-
-    gameStarted = true;
-
-    const name =
-        document.getElementById(
-            "nameInput"
-        ).value.trim();
-
-    if (!name) {
 
         document.getElementById(
-            "nameInput"
-        ).value =
-            "Player";
-    }
+            "startScreen"
+        ).style.display =
+            "none";
 
 
-    startScreen.style.display =
-        "none";
+        camera.position.copy(
+            player.position
+        );
 
 
-    camera.position.copy(
-        player.position
-    );
-
-    updateCameraRotation();
+        camera.rotation.order =
+            "YXZ";
 
 
-    connectMultiplayer();
+        connectMultiplayer();
 
-
-    /*
-       Desktop gets pointer lock
-       after pressing PLAY.
-    */
-
-    if (
-        !("ontouchstart" in window)
-    ) {
 
         setTimeout(
             () => {
 
-                renderer.domElement.requestPointerLock();
+                renderer.domElement
+                    .requestPointerLock();
 
             },
             100
         );
     }
-}
+);
 
 
-/* =========================================================
+/* =====================================================
    RESIZE
-========================================================= */
+===================================================== */
 
 window.addEventListener(
     "resize",
@@ -1753,9 +1124,9 @@ window.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    GAME LOOP
-========================================================= */
+===================================================== */
 
 const clock =
     new THREE.Clock();
@@ -1771,7 +1142,7 @@ function animate(time) {
     const delta =
         Math.min(
             clock.getDelta(),
-            .05
+            0.05
         );
 
 
@@ -1779,7 +1150,7 @@ function animate(time) {
 
         movePlayer(delta);
 
-        sendPlayerPosition(
+        sendPosition(
             performance.now()
         );
     }
